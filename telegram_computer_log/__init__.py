@@ -5,34 +5,31 @@ import time
 
 
 class Bot:
-	def __get_token_and_chat(self):
-		# this will only run the first timethe script is ran.
-		# this just creates the tellog_config.yml file. the rest of the script is ran as usual
-		if "tellog_config.yml" not in os.listdir():
-			f = open("tellog_config.yml", "w+")
-			f.write(f"""BOT_TOKEN: {input("Please enter the bot's token: ")}\nCHAT_ID: {input("Enter chat id: ")}\n""")
-			f.close()
-		
-		# now it reads both the bot_token and the chat_id from config
-		with open("tellog_config.yml") as f:
-			try:
-				contents = yaml.safe_load(f)
-				return contents["BOT_TOKEN"], contents["CHAT_ID"]
-			except yaml.YAMLError as e:
-				print(e)
-
-
-# toDO: move above function below the __init__ and read from there.
-
-
 	def __init__(self):
-		data = __get_token_and_chat()
-		self.__token = data[0]
-		self.__channel_id = data[1]
+		self.__data = self.__get_token_and_chat()
+		self.__token = self.__data[0]
+		self.__chat_id = self.__data[1]
+
+
+	def __get_token_and_chat(self):
+                # this will only run the first timethe script is ran.
+                # this just creates the tellog_config.yml file. the rest of the script is ran as usual
+                if "tellog_config.yml" not in os.listdir():
+                        f = open("tellog_config.yml", "w+")
+                        f.write(f"""BOT_TOKEN: {input("Please enter the bot's token: ")}\nCHAT_ID: {input("Enter chat id: ")}\n""")
+                        f.close()
+
+                # now it reads both the bot_token and the chat_id from config
+                with open("tellog_config.yml") as f:
+                        try:
+                                contents = yaml.safe_load(f)
+                                return contents["BOT_TOKEN"], contents["CHAT_ID"]
+                        except yaml.YAMLError as e:
+                                print(e)
 
 
 	def log(self, message):
-		url = f"https://api.telegram.org/bot{self.__TOKEN}/sendMessage?chat_id={self.__CHAT_ID}&text={message}"
+		url = f"https://api.telegram.org/bot{self.__token}/sendMessage?chat_id={self.__chat_id}&text={message}"
 		
 		response = requests.get(url)
 		
@@ -44,9 +41,14 @@ class Bot:
 			return False
 
 
-def tellog(func,bot):
-	def wrapper():
+def tellog(bot):
+	def inner(func):
 		start_time = time.time()
-		func()
-		bot.log(f"{nameof(func)} executed successfully in {time.time()-start_time}")
-	return wrapper
+
+		def wrapper():
+			func()
+
+		bot.log(f"{func.__name__} executed successfully in {time.time()-start_time}")
+		return wrapper
+
+	return inner
