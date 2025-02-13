@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/example.py
+src/tellog/__init__.py
+src/tellog/tellog.py
+src/tellog.egg-info/PKG-INFO
+src/tellog.egg-info/SOURCES.txt
+src/tellog.egg-info/dependency_links.txt
+src/tellog.egg-info/top_level.txt
