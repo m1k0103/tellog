@@ -1,3 +1,7 @@
 tellog_config.yml
 */__pycache__
 __pycache__
+*/build/
+*/dist/
+build/
+dist/
