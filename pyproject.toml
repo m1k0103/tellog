@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "pyyaml"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tellog"
+version = "0.0.1"
+authors = [
+  { name="m1k0103", email="84585119+m1k0103@users.noreply.github.com" },
+]
+description = "Log function completion to a telegram webhook!"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/m1k0103/tellog"
+Issues = "https://github.com/m1k0103/tellog/issues"
