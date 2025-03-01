@@ -1,4 +1,4 @@
-from telegram_computer_log import Bot, tellog
+from tellog import Bot, tellog
 
 bot = Bot()
 
