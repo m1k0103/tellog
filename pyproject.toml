@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "pyyaml"]
+requires = ["setuptools>=61.0", "pyyaml", "requires"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "tellog"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="m1k0103", email="84585119+m1k0103@users.noreply.github.com" },
 ]
